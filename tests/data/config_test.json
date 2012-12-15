@@ -11,7 +11,8 @@
         ]
     },
     "cartoVars": {
-        "color": "#eee"
+        "color": "#eee",
+        "park": "#eee"
     },
     "MBmeta": {
         "custom_tags": "One, Two"

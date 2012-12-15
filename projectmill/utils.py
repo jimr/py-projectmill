@@ -4,11 +4,14 @@ import copy
 import json
 import logging
 import os
+import re
 import shutil
 import types
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 log = logging.getLogger('projectmill')
+
+MSS_VAR_RE = re.compile('^@([\w-]+):([\W]?[^;]+);$')
 
 
 def dict_merge(merge_left, merge_right):
@@ -50,7 +53,24 @@ def process_mml(sourcefile, config):
 
 
 def process_mss(sourcefile, config):
-    raise NotImplementedError()
+    """Process the MSS file line by line & substitute out variables from config."""
+    with open(sourcefile) as f:
+        in_lines = f.read().decode('utf8').splitlines()
+
+    subs = config.get('cartoVars')
+
+    out_lines = []
+    for line in in_lines:
+        match = MSS_VAR_RE.search(line)
+        if match:
+            var_name, orig_value = match.groups()
+            if var_name in subs:
+                line = '@%s: %s;' % (var_name, subs.get(var_name, orig_value))
+
+        out_lines.append(line)
+
+    return '\n'.join(out_lines)
+    
 
 
 def mill(dest, config):
