@@ -3,12 +3,12 @@ Py-ProjectMill
 
 Python port of https://github.com/mapbox/projectmill
 
-Not complete. Currently only support `--mill`. The remainder of the
-documentation is adapted from the original project. Currently severely lacking
-tests & has implementation gaps even for `--mill`.
+Currently only support `--mill`, but that should be fully functional and has reasonable test coverage.
 
 The only requirement so far is for `testify`.
 To run tests, first `pip install -r requirements.txt` and then just run `testify tests`.
+
+The remainder of the documentation is adapted from the original project.
 
 - - -
 
