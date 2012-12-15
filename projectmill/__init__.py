@@ -12,7 +12,7 @@ projectmill
 __title__ = 'projectmill'
 __version__ = '0.0.1'
 __description__ = 'Python port of https://github.com/mapbox/projectmill'
-__url__ = 'https://github.com/Maplecroft/py-projectmill'
+__url__ = 'https://github.com/jimr/py-projectmill'
 __build__ = 0
 __author__ = 'James Rutherford'
 __license__ = 'ISC'
@@ -72,13 +72,11 @@ def main():
         config[cfg.get('destination')] = cfg
 
         for path in ['source', 'destination']:
-            cfg[path] = os.path.join(project_dir, 'projects', cfg.get(path))
+            cfg[path] = os.path.join(project_dir, 'project', cfg.get(path))
 
     
     if args.mill:
-        count = 0
         for k, v in config.items():
-            count += 1
             dest = v.get('destination')
             if os.path.exists(dest) and replace_existing:
                 shutil.rmtree(dest)
@@ -87,9 +85,6 @@ def main():
                 log.warn('Skipping project %s' % k)
             else:
                 utils.mill(k, v)
-
-            if count == 10:
-                break
 
 
 if __name__ == '__main__':
