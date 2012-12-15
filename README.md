@@ -7,6 +7,9 @@ Not complete. Currently only support `--mill`. The remainder of the
 documentation is adapted from the original project. Currently severely lacking
 tests & has implementation gaps even for `--mill`.
 
+The only requirement so far is for `testify`.
+To run tests, first `pip install -r requirements.txt` and then just run `testify tests`.
+
 - - -
 
 Need to generate a bunch of TileMill projects that are nearly identical and
