@@ -27,21 +27,12 @@ def mill(dest, config):
             destdir = os.path.dirname(destfile)
             sourcefile = os.path.join(config.get('source'), fname)
 
-            # In the future the 'mml' file will always be called 'project.mml',
-            # but currently this isn't the case.
-            # TODO delete this when https://github.com/mapbox/tilemill/pull/970
-            # is merged.
-            if fname.endswith('.mml') and fname != 'project.mml':
-                destfile = os.path.join(
-                    config.get('destination'), '%s.mml' % dest
-                )
-
             if not os.path.exists(destdir):
                 os.mkdir(destdir)
 
             if os.path.islink(sourcefile):
                 os.symlink(os.path.realpath(sourcefile), destfile)
-            elif 'mml' in config and fname.endswith('.mml'):
+            elif 'mml' in config and fname == 'project.mml':
                 with open(destfile, 'wb') as f:
                     f.write(process_mml(sourcefile, config))
             elif 'cartoVars' in config and fname.endswith('.mss'):
