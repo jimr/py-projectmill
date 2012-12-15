@@ -1,4 +1,4 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 # -*- coding: iso-8859-15 -*-
 
 import copy
@@ -84,7 +84,7 @@ class DictMergeTestCase(TestCase):
         """Merge non-dicts"""
         result = None
         with assert_raises(TypeError):
-            result = dict_merge(4, 'abc')
+            result = dict_merge(4, dict(a=1))
 
         assert_equal(result, None)
 

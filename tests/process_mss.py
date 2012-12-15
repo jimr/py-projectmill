@@ -1,4 +1,4 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 # -*- coding: iso-8859-15 -*-
 
 import json
@@ -46,7 +46,10 @@ class ProcessMSSTestCase(TestCase):
                 # still a valid MSS variable
                 assert_not_equal(old, new)
                 assert_match_regex(MSS_VAR_RE, new)
-                assert_equal(new[-5:-1], self.config.get('cartoVars').get('park'))
+                assert_equal(
+                    new[-5:-1],
+                    self.config.get('cartoVars').get('park')
+                )
             else:
                 assert_equal(old, new)
 

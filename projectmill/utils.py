@@ -22,15 +22,12 @@ def dict_merge(merge_left, merge_right):
     process, and the result is a new dictionary.
 
     """
-    if type(merge_left) != types.DictType:
-        raise TypeError("merge_left must be a dictionary")
-
-    if type(merge_right) != types.DictType:
+    if not isinstance(merge_right, dict):
         return merge_right
 
     result = copy.deepcopy(merge_left)
     for k, v in merge_right.iteritems():
-        if k in result and type(result[k]) == types.DictType:
+        if k in result and isinstance(result[k], dict):
             result[k] = dict_merge(result[k], v)
         else:
             result[k] = copy.deepcopy(v)
@@ -43,7 +40,7 @@ def process_mml(sourcefile, config):
     with open(sourcefile) as f:
         source_dict = json.loads(f.read())
 
-    assert type(source_dict) == types.DictType, (
+    assert isinstance(source_dict, types.DictType), (
         "Base of config merges must be a dictionary: %s" % str(source_dict)
     )
 
@@ -53,7 +50,7 @@ def process_mml(sourcefile, config):
 
 
 def process_mss(sourcefile, config):
-    """Process the MSS file line by line & substitute out variables from config."""
+    """Read the MSS file line by line & substitute out variables from config"""
     with open(sourcefile) as f:
         in_lines = f.read().decode('utf8').splitlines()
 
@@ -70,7 +67,6 @@ def process_mss(sourcefile, config):
         out_lines.append(line)
 
     return '\n'.join(out_lines)
-    
 
 
 def mill(dest, config):
@@ -84,19 +80,25 @@ def mill(dest, config):
                 os.mkdir(destdir)
 
             if os.path.islink(sourcefile):
+                # Symlinks are just reproduced
                 os.symlink(os.path.realpath(sourcefile), destfile)
             elif 'mml' in config and fname == 'project.mml':
+                # project.mml files are recursively merged with config before
+                # copying
                 with open(destfile, 'wb') as f:
                     f.write(process_mml(sourcefile, config))
             elif 'cartoVars' in config and fname.endswith('.mss'):
+                # map stylesheets have variables substituted from config before
+                # copying
                 with open(destfile, 'wb') as f:
                     f.write(process_mss(sourcefile, config))
             else:
+                # everything else, we just copy as-is
                 if os.path.isfile(sourcefile):
                     shutil.copy(sourcefile, destfile)
                 else:
                     shutil.copytree(sourcefile, destfile)
-            
+
             log.info('Created project: %s' % config.get('destination'))
         except Exception, ex:
             log.exception(

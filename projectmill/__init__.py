@@ -74,7 +74,6 @@ def main():
         for path in ['source', 'destination']:
             cfg[path] = os.path.join(project_dir, 'project', cfg.get(path))
 
-    
     if args.mill:
         for k, v in config.items():
             dest = v.get('destination')
