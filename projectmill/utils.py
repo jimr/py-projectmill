@@ -6,7 +6,6 @@ import logging
 import os
 import re
 import shutil
-import types
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 log = logging.getLogger('projectmill')
@@ -40,7 +39,7 @@ def process_mml(sourcefile, config):
     with open(sourcefile) as f:
         source_dict = json.loads(f.read())
 
-    assert isinstance(source_dict, types.DictType), (
+    assert isinstance(source_dict, dict), (
         "Base of config merges must be a dictionary: %s" % str(source_dict)
     )
 
