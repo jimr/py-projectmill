@@ -6,6 +6,7 @@ import logging
 import os
 import re
 import shutil
+import subprocess
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 log = logging.getLogger('projectmill')
@@ -45,7 +46,7 @@ def process_mml(sourcefile, config):
 
     assert 'mml' in config
 
-    return json.dumps(dict_merge(source_dict, config.get('mml')), indent=2)
+    return json.dumps(dict_merge(config.get('mml'), source_dict), indent=2)
 
 
 def process_mss(sourcefile, config):
@@ -68,7 +69,7 @@ def process_mss(sourcefile, config):
     return '\n'.join(out_lines)
 
 
-def mill(dest, config):
+def mill(config):
     for fname in os.listdir(config.get('source')):
         try:
             destfile = os.path.join(config.get('destination'), fname)
@@ -104,3 +105,30 @@ def mill(dest, config):
                 'Error processing project: %s (%s)' %
                 (config.get('destination'), ex)
             )
+
+
+def render(key, config, dest, project_dir, node_path, tilemill_path):
+    args = [
+        'nice', '-n19', node_path, tilemill_path, 'export', key, dest,
+        '--format=%s' % config.get('format'),
+        '--files=%s' % project_dir,
+    ]
+    for x in ['bbox', 'width', 'height', 'minzoom', 'maxzoom']:
+        val = config.get(x)
+        if val:
+            args.append('--%s=%s' % (x, val))
+    log.info('Spawning %s' % ' '.join(args))
+
+    if not os.path.exists(dest):
+        os.makedirs(dest)
+
+    ret = subprocess.call(args)
+    if ret:
+        log.warn('Render failed for %s' % key)
+    else:
+        log.info('Rendered %s' % key)
+
+    # If this isn't mbtile or we don't have any metadata to add, we're done
+    if config.get('format') != 'mbtiles' or not config.get('MBmeta'):
+        return
+

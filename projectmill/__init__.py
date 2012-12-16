@@ -39,6 +39,7 @@ def main():
     parser.add_argument("--upload", action="store_true")
     parser.add_argument("-c", "--config", help="./config.json")
     parser.add_argument("-t", "--tilemill", help="/path/to/tilemill")
+    parser.add_argument("-n", "--node", help="/path/to/node")
     parser.add_argument("-p", "--project_dir", help="Where to drop the output")
     parser.add_argument("-f", "--replace_existing", action="store_true")
     args = parser.parse_args()
@@ -52,10 +53,14 @@ def main():
         os.environ.get('HOME'), 'Documents', 'MapBox',
     )
     tilemill_path = args.tilemill or '/usr/share/tilemill'
+    node_path = args.node or '/usr/bin/node'
     replace_existing = args.replace_existing
 
     if not os.path.exists(tilemill_path):
         raise IOError("Can't find tilemill at %s" % tilemill_path)
+
+    if not os.path.exists(node_path):
+        raise IOError("Can't find node at %s" % node_path)
 
     if not os.path.isfile(args.config):
         raise IOError("Can't find config at %s" % args.config)
@@ -83,7 +88,23 @@ def main():
             if os.path.exists(dest):
                 log.warn('Skipping project %s' % k)
             else:
-                utils.mill(k, v)
+                utils.mill(v)
+
+    if args.render:
+        assert 'format' in cfg, "'format' required to render: %s" % str(cfg)
+
+        for k, v in config.items():
+            dest = os.path.join(
+                project_dir, 'export', '%s.%s' % (k, v.get('format'))
+            )
+
+            if os.path.exists(dest) and replace_existing:
+                shutil.rmtree(dest)
+
+            if os.path.exists(dest):
+                log.warn('Skipping project %s' % k)
+            else:
+                utils.render(k, v, dest, project_dir, node_path, tilemill_path)
 
 
 if __name__ == '__main__':
