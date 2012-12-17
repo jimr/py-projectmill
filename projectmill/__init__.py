@@ -104,7 +104,7 @@ def main():
             if os.path.exists(dest):
                 log.warn('Skipping project %s' % k)
             else:
-                utils.render(k, v, dest, project_dir, node_path, tilemill_path)
+                utils.render(k, v, dest, node_path, tilemill_path)
 
     if args.upload:
         raise NotImplementedError("No support for upload yet, sorry.")

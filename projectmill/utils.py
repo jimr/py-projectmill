@@ -121,11 +121,10 @@ def mill(config):
     log.info('Created project: %s' % config.get('destination'))
 
 
-def render(key, config, dest, project_dir, node_path, tilemill_path):
+def render(key, config, dest, node_path, tilemill_path):
     args = [
         'nice', '-n19', node_path, tilemill_path, 'export', key, dest,
         '--format=%s' % config.get('format'),
-        '--files=%s' % project_dir,
     ]
     for x in ['bbox', 'width', 'height', 'minzoom', 'maxzoom']:
         val = config.get(x)
