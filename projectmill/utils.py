@@ -6,7 +6,7 @@ import logging
 import os
 import re
 import shutil
-import sqlite3 as sqlite
+import sqlite3
 import subprocess
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
@@ -142,14 +142,15 @@ def render(key, config, dest, project_dir, node_path, tilemill_path):
     if config.get('format') != 'mbtiles' or not config.get('MBmeta'):
         return
 
-    conn = sqlite.connect(dest)
-    cur = conn.cursor()
-    rows = []
-    for k, v in config.get('MBmeta').items():
-        if not isinstance(k, str):
-            return
-        rows.append(
-            sql = cur.execute(
-                'REPLACE INTO metadata (name, value) VALUES (?, ?)', (k, v)
-            )
-        )
+    conn = sqlite3.connect(dest)
+    try:
+        for k, v in config.get('MBmeta').items():
+            if not isinstance(k, str):
+                return
+
+            with conn:
+                conn.execute(
+                    'REPLACE INTO metadata (name, value) VALUES (?, ?)', (k, v)
+                )
+    finally:
+        conn.close()
