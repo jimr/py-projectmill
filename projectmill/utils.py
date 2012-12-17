@@ -8,6 +8,7 @@ import re
 import shutil
 import sqlite3
 import subprocess
+import types
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 log = logging.getLogger('projectmill')
@@ -145,12 +146,13 @@ def render(key, config, dest, project_dir, node_path, tilemill_path):
     conn = sqlite3.connect(dest)
     try:
         for k, v in config.get('MBmeta').items():
-            if not isinstance(k, str):
-                return
+            assert isinstance(k, types.StringTypes)
 
             with conn:
                 conn.execute(
                     'REPLACE INTO metadata (name, value) VALUES (?, ?)', (k, v)
                 )
+    except Exception, ex:
+        log.warn("sqlite operation failed for %s: %s" % (key, str(ex)))
     finally:
         conn.close()
