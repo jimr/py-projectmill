@@ -3,9 +3,10 @@ Py-ProjectMill
 
 Python port of https://github.com/mapbox/projectmill
 
-Currently only support `--mill`, but that should be fully functional and has reasonable test coverage.
+Currently only fully support `--mill`, but that should be fully functional and has reasonable test coverage.
+There is partial support for `--render` (currently `svg`, `pdf`, and `png` look to be working OK).
 
-The only requirement so far is for `testify`.
+The only Python requirement so far is for `testify`.
 To run tests, first `pip install -r requirements.txt` and then just run `testify tests`.
 
 The remainder of the documentation is adapted from the original project.

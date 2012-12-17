@@ -14,21 +14,33 @@ log = logging.getLogger('projectmill')
 MSS_VAR_RE = re.compile('^@([\w-]+):([\W]?[^;]+);$')
 
 
-def dict_merge(merge_left, merge_right):
-    """Recursively merge two dicts, returning a new dict as the result.
+def merge_config(merge_left, merge_right):
+    """Recursively merge two config dicts, returning a new dict as the result.
 
     The base of the merge is `merge_left`, and the values to merge in are taken
     recursively from `merge_right`. Both inputs are left unmodified by the
     process, and the result is a new dictionary.
 
+    The behaviour is a little specialised, as if `merge_left` and `merge_right`
+    are lists, we assume they are of equal length, and attempt merges on the
+    pairs of elements in order.
+
     """
+    if isinstance(merge_right, list):
+        assert isinstance(merge_left, list)
+        assert len(merge_left) == len(merge_right)
+        result = []
+        for l, r in zip(merge_left, merge_right):
+            result.append(merge_config(l, r))
+        return result
+
     if not isinstance(merge_right, dict):
         return merge_right
 
     result = copy.deepcopy(merge_left)
     for k, v in merge_right.iteritems():
-        if k in result and isinstance(result[k], dict):
-            result[k] = dict_merge(result[k], v)
+        if k in result and isinstance(result[k], (dict, list)):
+            result[k] = merge_config(result[k], v)
         else:
             result[k] = copy.deepcopy(v)
     return result
@@ -46,7 +58,7 @@ def process_mml(sourcefile, config):
 
     assert 'mml' in config
 
-    return json.dumps(dict_merge(config.get('mml'), source_dict), indent=2)
+    return json.dumps(merge_config(source_dict, config.get('mml')), indent=2)
 
 
 def process_mss(sourcefile, config):
@@ -99,12 +111,12 @@ def mill(config):
                 else:
                     shutil.copytree(sourcefile, destfile)
 
-            log.info('Created project: %s' % config.get('destination'))
         except Exception, ex:
             log.exception(
                 'Error processing project: %s (%s)' %
                 (config.get('destination'), ex)
             )
+    log.info('Created project: %s' % config.get('destination'))
 
 
 def render(key, config, dest, project_dir, node_path, tilemill_path):
@@ -120,15 +132,18 @@ def render(key, config, dest, project_dir, node_path, tilemill_path):
     log.info('Spawning %s' % ' '.join(args))
 
     if not os.path.exists(dest):
-        os.makedirs(dest)
+        # PNG export is just to a flat file
+        if format not in ['pdf', 'png', 'svg']:
+            os.makedirs(dest)
 
     ret = subprocess.call(args)
     if ret:
         log.warn('Render failed for %s' % key)
     else:
-        log.info('Rendered %s' % key)
+        log.info('Rendered %s as %s' % (key, config.get('format')))
 
     # If this isn't mbtile or we don't have any metadata to add, we're done
     if config.get('format') != 'mbtiles' or not config.get('MBmeta'):
         return
 
+    raise NotImplementedError("Currently only support pdf, png, and svg")

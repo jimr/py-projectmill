@@ -106,6 +106,9 @@ def main():
             else:
                 utils.render(k, v, dest, project_dir, node_path, tilemill_path)
 
+    if args.upload:
+        raise NotImplementedError("No support for upload yet, sorry.")
+
 
 if __name__ == '__main__':
     main()

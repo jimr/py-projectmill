@@ -7,7 +7,7 @@ from testify import (
     TestCase, setup, teardown, assert_equal, assert_raises, run
 )
 
-from projectmill.utils import dict_merge
+from projectmill.utils import merge_config
 
 
 class DictMergeTestCase(TestCase):
@@ -32,7 +32,7 @@ class DictMergeTestCase(TestCase):
         orig_left = copy.deepcopy(self.merge_left)
         orig_right = copy.deepcopy(merge_right)
 
-        dict_merge(self.merge_left, merge_right)
+        merge_config(self.merge_left, merge_right)
 
         assert_equal(self.merge_left, orig_left)
         assert_equal(merge_right, orig_right)
@@ -43,7 +43,7 @@ class DictMergeTestCase(TestCase):
             a=1,
             b=dict(b1=3),
         )
-        result = dict_merge(self.merge_left, merge_right)
+        result = merge_config(self.merge_left, merge_right)
 
         assert_equal(result, dict(
             a=1,
@@ -64,7 +64,7 @@ class DictMergeTestCase(TestCase):
                 c2='c',
             )
         )
-        result = dict_merge(self.merge_left, merge_right)
+        result = merge_config(self.merge_left, merge_right)
 
         assert_equal(result, dict(
             a=1,
@@ -77,14 +77,14 @@ class DictMergeTestCase(TestCase):
 
     def test_null_merge(self):
         """Merging a dict with None"""
-        result = dict_merge(self.merge_left, None)
+        result = merge_config(self.merge_left, None)
         assert_equal(result, None)
 
     def test_bad_merge(self):
         """Merge non-dicts"""
         result = None
         with assert_raises(TypeError):
-            result = dict_merge(4, dict(a=1))
+            result = merge_config(4, dict(a=1))
 
         assert_equal(result, None)
 
@@ -92,13 +92,13 @@ class DictMergeTestCase(TestCase):
         """Merge dict into non-dict"""
         result = None
         with assert_raises(TypeError):
-            result = dict_merge(4, dict(a=1))
+            result = merge_config(4, dict(a=1))
 
         assert_equal(result, None)
 
     def test_noop_merge(self):
         """Merging a dict with itself"""
-        result = dict_merge(self.merge_left, self.merge_left)
+        result = merge_config(self.merge_left, self.merge_left)
         assert_equal(result, self.merge_left)
 
     @teardown
