@@ -99,7 +99,7 @@ def main():
             )
 
             if os.path.exists(dest) and replace_existing:
-                shutil.rmtree(dest)
+                os.unlink(dest)
 
             if os.path.exists(dest):
                 log.warn('Skipping project %s' % k)

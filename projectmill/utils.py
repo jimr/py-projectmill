@@ -6,6 +6,7 @@ import logging
 import os
 import re
 import shutil
+import sqlite3 as sqlite
 import subprocess
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
@@ -131,19 +132,24 @@ def render(key, config, dest, project_dir, node_path, tilemill_path):
             args.append('--%s=%s' % (x, val))
     log.info('Spawning %s' % ' '.join(args))
 
-    if not os.path.exists(dest):
-        # PNG export is just to a flat file
-        if format not in ['pdf', 'png', 'svg']:
-            os.makedirs(dest)
-
     ret = subprocess.call(args)
     if ret:
         log.warn('Render failed for %s' % key)
     else:
         log.info('Rendered %s as %s' % (key, config.get('format')))
 
-    # If this isn't mbtile or we don't have any metadata to add, we're done
+    # If this isn't mbtiles or we don't have any metadata to add, we're done
     if config.get('format') != 'mbtiles' or not config.get('MBmeta'):
         return
 
-    raise NotImplementedError("Currently only support pdf, png, and svg")
+    conn = sqlite.connect(dest)
+    cur = conn.cursor()
+    rows = []
+    for k, v in config.get('MBmeta').items():
+        if not isinstance(k, str):
+            return
+        rows.append(
+            sql = cur.execute(
+                'REPLACE INTO metadata (name, value) VALUES (?, ?)', (k, v)
+            )
+        )
