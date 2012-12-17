@@ -84,6 +84,7 @@ def process_mss(sourcefile, config):
 
 
 def mill(config):
+    """Create new tilemill projects by merging configs."""
     for fname in os.listdir(config.get('source')):
         try:
             destfile = os.path.join(config.get('destination'), fname)
@@ -122,6 +123,7 @@ def mill(config):
 
 
 def render(key, config, dest, node_path, tilemill_path):
+    """Call out to tilemill to render."""
     args = [
         'nice', '-n19', node_path, tilemill_path, 'export', key, dest,
         '--format=%s' % config.get('format'),
