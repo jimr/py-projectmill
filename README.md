@@ -21,9 +21,11 @@ Example: `projectmill --mill -c config.example.json -t ../tilemill/`
 
 ## Installation
 
-Install with `pip install -e .` or `python setup.py install`. Currently there
-are no dependencies apart from Python (tested with Python 2.7, ought to work
-with Python 2.6).
+Install with `pip install -e .` or `python setup.py install`.
+If you're using Python 2.7, there are no dependencies unless you want to run the tests.
+If you're using Python 2.6, you will need to `pip install -r requirements-2.6.txt` (2.6 doesn't include `argparse`, which is required).
+
+Not yet tested with 2.5 or 3.x.
 
 ## Configuration
 
