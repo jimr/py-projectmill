@@ -5,8 +5,8 @@ Python port of https://github.com/mapbox/projectmill
 
 Currently only support `--mill` and `--render`.
 
-The only Python requirement so far are is `testify` (for running tests).
-To run tests, first `pip install -r requirements.txt` and then just run `testify tests`.
+The only Python requirement so far are `testy` and `nose` (for running tests).
+To run tests, first `pip install -r requirements.txt` and then just run `nosetests`.
 
 The remainder of the documentation is adapted from the original project.
 
@@ -23,9 +23,9 @@ Example: `projectmill --mill -c config.example.json -t ../tilemill/`
 
 Install with `pip install -e .` or `python setup.py install`.
 If you're using Python 2.7, there are no dependencies unless you want to run the tests.
-If you're using Python 2.6, you will need to `pip install -r requirements-2.6.txt` (2.6 doesn't include `argparse`, which is required).
+If you're using Python 2.6, 3.0, or 3.1, you will need to `pip install -r requirements-X.Y.txt` (2.6 / 3.0 / 3.1 don't include `argparse`, which is required).
 
-Not yet tested with 2.5 or 3.x.
+Not yet tested with 2.5 or 3.x, but it ought to work with both.
 
 ## Configuration
 

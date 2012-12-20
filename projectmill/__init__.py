@@ -10,7 +10,7 @@ projectmill
 """
 
 __title__ = 'projectmill'
-__version__ = '0.0.1'
+__version__ = '0.1'
 __description__ = 'Python port of https://github.com/mapbox/projectmill'
 __url__ = 'https://github.com/jimr/py-projectmill'
 __build__ = 0
@@ -45,7 +45,7 @@ def main():
     args = parser.parse_args()
 
     if not (args.mill or args.render or args.upload):
-        print 'Missing command. One of --mill --render or --upload required.'
+        print('Missing command. One of --mill --render or --upload required.')
         parser.print_usage()
         sys.exit(1)
 
@@ -80,7 +80,7 @@ def main():
             cfg[path] = os.path.join(project_dir, 'project', cfg.get(path))
 
     if args.mill:
-        for k, v in config.items():
+        for k, v in list(config.items()):
             dest = v.get('destination')
             if os.path.exists(dest) and replace_existing:
                 shutil.rmtree(dest)
@@ -93,7 +93,7 @@ def main():
     if args.render:
         assert 'format' in cfg, "'format' required to render: %s" % str(cfg)
 
-        for k, v in config.items():
+        for k, v in list(config.items()):
             dest = os.path.join(
                 project_dir, 'export', '%s.%s' % (k, v.get('format'))
             )

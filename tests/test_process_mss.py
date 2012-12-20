@@ -3,17 +3,15 @@
 
 import json
 import os
+import unittest
 
-from testify import (
-    TestCase, setup, assert_equal, assert_not_equal, assert_match_regex, run
-)
+from testy.assertions import assert_equal, assert_not_equal, assert_match_regex
 
 from projectmill.utils import process_mss, MSS_VAR_RE
 
 
-class ProcessMSSTestCase(TestCase):
-    @setup
-    def read_source(self):
+class ProcessMSSTestCase(unittest.TestCase):
+    def setUp(self):
         base_path = os.path.join(
             os.path.dirname(__file__),
             'data',
@@ -55,4 +53,4 @@ class ProcessMSSTestCase(TestCase):
 
 
 if __name__ == "__main__":
-    run()
+    unittest.main()

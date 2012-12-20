@@ -3,17 +3,15 @@
 
 import json
 import os
+import unittest
 
-from testify import (
-    TestCase, setup, assert_equal, assert_raises, run
-)
+from testy.assertions import assert_equal, assert_raises
 
 from projectmill.utils import process_mml
 
 
-class ProcessMMLTestCase(TestCase):
-    @setup
-    def read_source(self):
+class ProcessMMLTestCase(unittest.TestCase):
+    def setUp(self):
         self.source = os.path.join(
             os.path.dirname(__file__),
             'data',
@@ -38,4 +36,4 @@ class ProcessMMLTestCase(TestCase):
 
 
 if __name__ == "__main__":
-    run()
+    unittest.main()

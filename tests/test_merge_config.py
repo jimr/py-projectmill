@@ -2,17 +2,15 @@
 # -*- coding: iso-8859-15 -*-
 
 import copy
+import unittest
 
-from testify import (
-    TestCase, setup, teardown, assert_equal, assert_raises, run
-)
+from testy.assertions import assert_equal, assert_raises
 
 from projectmill.utils import merge_config
 
 
-class DictMergeTestCase(TestCase):
-    @setup
-    def create_src(self):
+class DictMergeTestCase(unittest.TestCase):
+    def setUp(self):
         self.merge_left = dict(
             a=1,
             b=2,
@@ -101,10 +99,9 @@ class DictMergeTestCase(TestCase):
         result = merge_config(self.merge_left, self.merge_left)
         assert_equal(result, self.merge_left)
 
-    @teardown
-    def clear_src(self):
+    def teardown(self):
         self.src = dict()
 
 
 if __name__ == "__main__":
-    run()
+    unittest.main()

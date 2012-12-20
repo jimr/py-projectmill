@@ -40,7 +40,7 @@ def merge_config(merge_left, merge_right):
         return merge_right
 
     result = copy.deepcopy(merge_left)
-    for k, v in merge_right.iteritems():
+    for k, v in merge_right.items():
         if k in result and isinstance(result[k], (dict, list)):
             result[k] = merge_config(result[k], v)
         else:
@@ -100,12 +100,12 @@ def mill(config):
             elif 'mml' in config and fname == 'project.mml':
                 # project.mml files are recursively merged with config before
                 # copying
-                with open(destfile, 'wb') as f:
+                with open(destfile, 'w') as f:
                     f.write(process_mml(sourcefile, config))
             elif 'cartoVars' in config and fname.endswith('.mss'):
                 # map stylesheets have variables substituted from config before
                 # copying
-                with open(destfile, 'wb') as f:
+                with open(destfile, 'w') as f:
                     f.write(process_mss(sourcefile, config))
             else:
                 # everything else, we just copy as-is
@@ -114,7 +114,7 @@ def mill(config):
                 else:
                     shutil.copytree(sourcefile, destfile)
 
-        except Exception, ex:
+        except Exception as ex:
             log.exception(
                 'Error processing project: %s (%s)' %
                 (config.get('destination'), ex)
@@ -153,7 +153,7 @@ def render(key, config, dest, node_path, tilemill_path):
                 conn.execute(
                     'REPLACE INTO metadata (name, value) VALUES (?, ?)', (k, v)
                 )
-    except Exception, ex:
+    except Exception as ex:
         log.warn("sqlite operation failed for %s: %s" % (key, str(ex)))
     finally:
         conn.close()

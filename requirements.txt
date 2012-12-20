@@ -1,1 +1,2 @@
-testify
+nose
+git+https://github.com/jimr/testy#egg=testy
