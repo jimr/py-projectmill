@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import codecs
 import copy
 import json
 import logging
@@ -51,7 +52,7 @@ def merge_config(merge_left, merge_right):
 def process_mml(sourcefile, config):
     """Merge base + custom configurations"""
     source_dict = dict()
-    with open(sourcefile) as f:
+    with codecs.open(sourcefile, 'r', 'utf-8') as f:
         source_dict = json.loads(f.read())
 
     assert isinstance(source_dict, dict), (
@@ -65,8 +66,8 @@ def process_mml(sourcefile, config):
 
 def process_mss(sourcefile, config):
     """Read the MSS file line by line & substitute out variables from config"""
-    with open(sourcefile) as f:
-        in_lines = f.read().decode('utf8').splitlines()
+    with codecs.open(sourcefile, 'r', 'utf-8') as f:
+        in_lines = f.read().splitlines()
 
     subs = config.get('cartoVars')
 

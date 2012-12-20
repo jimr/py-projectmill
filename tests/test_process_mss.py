@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: iso-8859-15 -*-
 
+import codecs
 import json
 import os
 import unittest
@@ -17,15 +18,16 @@ class ProcessMSSTestCase(unittest.TestCase):
             'data',
         )
 
-        with open(os.path.join(base_path, 'config_test.json')) as f:
+        path = os.path.join(base_path, 'config_test.json')
+        with codecs.open(path, 'r', 'utf-8') as f:
             self.config = json.loads(f.read())
 
         self.source = os.path.join(base_path, 'style.mss')
 
     def test_simple_merge(self):
         """Test merging a config with an empty 'cartoVars' attribute."""
-        with open(self.source) as f:
-            source_mss = f.read().decode('utf8')
+        with codecs.open(self.source, 'r', 'utf-8') as f:
+            source_mss = f.read()
 
         result = process_mss(self.source, self.config)
         lines = result.splitlines()
