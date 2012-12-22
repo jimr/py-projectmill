@@ -6,7 +6,7 @@ projectmill
 ~~~~~~~~
 
 :copyright: (c) 2012 by James Rutherford
-:license: ISC, see LICENSE for more details.
+:license: MIT, see LICENSE.txt for more details.
 
 """
 
