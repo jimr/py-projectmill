@@ -6,3 +6,5 @@ env
 *.swp
 *.egg-info
 .DS_Store
+.tox
+tox-local.ini

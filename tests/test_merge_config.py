@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: iso-8859-15 -*-
 
+from __future__ import with_statement
+
 import copy
 import unittest
 

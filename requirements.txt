@@ -1,2 +1,3 @@
 nose
-git+https://github.com/jimr/testy#egg=testy
+tox
+testy>=0.1.1

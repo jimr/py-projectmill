@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -9,6 +10,8 @@ projectmill
 
 """
 
+from __future__ import with_statement
+
 __title__ = 'projectmill'
 __version__ = '0.1'
 __description__ = 'Python port of https://github.com/mapbox/projectmill'
@@ -18,9 +21,12 @@ __author__ = 'James Rutherford'
 __license__ = 'ISC'
 __copyright__ = 'Copyright 2012 James Rutherford'
 
+try:
+    import json
+except ImportError:
+    import simplejson as json
 
 import argparse
-import json
 import logging
 import os
 import shutil

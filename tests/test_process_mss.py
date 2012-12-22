@@ -1,8 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: iso-8859-15 -*-
 
+from __future__ import with_statement
+
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
 import codecs
-import json
 import os
 import unittest
 

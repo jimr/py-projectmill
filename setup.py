@@ -19,15 +19,16 @@ setup(
     name='py-%s' % get_init_val('title'),
     version=get_init_val('version'),
     description=get_init_val('description'),
-    long_description=open('README.md').read(),
+    long_description=open('README.rst').read(),
     author=get_init_val('author'),
+    author_email='jim@jimr.org',
     url=get_init_val('url'),
-    package_data={'': ['LICENSE', 'NOTICE']},
     license=get_init_val('license'),
     entry_points={
         'console_scripts': [
             'projectmill = projectmill:main',
         ]
     },
+    install_requires=['testy'],
     packages=PACKAGES
 )

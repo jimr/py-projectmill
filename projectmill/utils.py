@@ -1,14 +1,22 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
+from __future__ import with_statement
+
+try:
+    import json
+except ImportError:
+    import simplejson as json
 
 import codecs
 import copy
-import json
 import logging
 import os
 import re
 import shutil
 import sqlite3
 import subprocess
+import sys
 import types
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
@@ -115,7 +123,8 @@ def mill(config):
                 else:
                     shutil.copytree(sourcefile, destfile)
 
-        except Exception as ex:
+        except Exception:
+            _, ex, _ = sys.exc_info()
             log.exception(
                 'Error processing project: %s (%s)' %
                 (config.get('destination'), ex)
@@ -154,7 +163,8 @@ def render(key, config, dest, node_path, tilemill_path):
                 conn.execute(
                     'REPLACE INTO metadata (name, value) VALUES (?, ?)', (k, v)
                 )
-    except Exception as ex:
+    except Exception:
+        _, ex, _ = sys.exc_info()
         log.warn("sqlite operation failed for %s: %s" % (key, str(ex)))
     finally:
         conn.close()
