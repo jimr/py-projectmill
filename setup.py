@@ -29,5 +29,15 @@ setup(
             'projectmill = projectmill:main',
         ]
     },
+    classifiers = [
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
+        'Development Status :: 4 - Beta',
+        'Environment :: Other Environment',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+        'Topic :: Scientific/Engineering :: GIS',
+        ],
     packages=PACKAGES
 )
