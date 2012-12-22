@@ -13,12 +13,12 @@ projectmill
 from __future__ import with_statement
 
 __title__ = 'projectmill'
-__version__ = '0.1'
+__version__ = '0.2'
 __description__ = 'Python port of https://github.com/mapbox/projectmill'
 __url__ = 'https://github.com/jimr/py-projectmill'
 __build__ = 0
 __author__ = 'James Rutherford'
-__license__ = 'ISC'
+__license__ = 'MIT'
 __copyright__ = 'Copyright 2012 James Rutherford'
 
 try:

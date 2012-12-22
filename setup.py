@@ -29,6 +29,5 @@ setup(
             'projectmill = projectmill:main',
         ]
     },
-    install_requires=['testy'],
     packages=PACKAGES
 )
