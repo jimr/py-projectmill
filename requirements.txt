@@ -1,3 +1,1 @@
-nose
-tox
-testy>=0.1.1
+# this file left intentionally blank
