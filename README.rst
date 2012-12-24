@@ -6,7 +6,7 @@ Python port of https://github.com/mapbox/projectmill
 
 Currently only support ``--mill`` and ``--render``.
 
-There are no requirements for Python 2.7 and 3.2+ unless you want to run the tests.
+There are no requirements for Python 2.7, 3.2+, and pypy-1.9 unless you want to run the tests.
 To run tests, first ``pip install nose testy`` and then just run ``nosetests``.
 
 The remainder of the documentation is adapted from the original project.
@@ -24,9 +24,9 @@ Installation
 ============
 
 Install from source with ``pip install -e .`` or ``python setup.py install``, or direct from the cheese shop with ``pip install py-projectmill``.
-If you're using Python 2.6, 3.0, or 3.1, you will need to ``pip install -r requirements-X.Y.txt`` (2.6 / 3.0 / 3.1 don't include ``argparse``, which is required).
+If you're using Python 2.5, 2.6, 3.0, or 3.1, you will need to ``pip install -r requirements-X.Y.txt`` (they don't include ``argparse``, which is required, and 2.5 needs ``simplejson``).
 
-Tests pass with all versions from 2.5 - 3.3, so it ought to work for just about everyone.
+Tests pass with all versions from 2.5 - 3.3 and pypy-1.9, so it ought to work for just about everyone.
 
 Configuration
 =============
