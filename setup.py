@@ -47,5 +47,7 @@ setup(
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Scientific/Engineering :: GIS',
         ],
-    packages=PACKAGES
+    packages=PACKAGES,
+    test_suite='tests',
+    tests_require=['testy'],
 )

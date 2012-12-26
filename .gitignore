@@ -4,6 +4,7 @@ env
 *.py[c,o]
 *.bak
 *.swp
+*.egg
 *.egg-info
 .DS_Store
 .tox

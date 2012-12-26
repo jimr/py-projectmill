@@ -13,7 +13,7 @@ projectmill
 from __future__ import with_statement
 
 __title__ = 'projectmill'
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 __description__ = 'Python port of https://github.com/mapbox/projectmill'
 __url__ = 'https://github.com/jimr/py-projectmill'
 __build__ = 0

@@ -8,6 +8,7 @@ Currently only support ``--mill`` and ``--render``.
 
 There are no requirements for Python 2.7, 3.2+, and pypy-1.9 unless you want to run the tests.
 To run tests, first ``pip install nose testy`` and then just run ``nosetests``.
+Alternatively, just run ``python setup.py test``.
 
 The remainder of the documentation is adapted from the original project.
 
